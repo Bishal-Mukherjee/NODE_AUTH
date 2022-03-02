@@ -1,4 +1,4 @@
-const User = require("../models/User");
+// const User = require("../models/User");
 const axios = require("axios").default;
 
 exports.code_execution = (req, res) => {
@@ -14,43 +14,51 @@ exports.code_execution = (req, res) => {
       // type:1:fetchResult
       case 0:
         const { source_code, language_id } = data;
-        if (intanceChoice === 1) instance = instance1;
-        else instance = instance2;
+        try {
+          if (intanceChoice === 1) instance = instance1;
+          else instance = instance2;
 
-        return axios({
-          url: `${instance}/submissions`,
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          data: JSON.stringify({ source_code, language_id }),
-        })
-          .then((response) => {
-            return res
-              .status(200)
-              .json({ response: JSON.stringify(response.data) });
+          return axios({
+            url: `${instance}/submissions`,
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            data: JSON.stringify({ source_code, language_id }),
           })
-          .catch((err) => {
-            console.log(err);
-          });
+            .then((response) => {
+              return res
+                .status(200)
+                .json({ response: JSON.stringify(response.data) });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } catch (error) {
+          console.log(error);
+        }
         break;
       case 1:
-        if (intanceChoice === 1) instance = instance1;
-        else instance = instance2;
-        const { token } = data;
+        try {
+          if (intanceChoice === 1) instance = instance1;
+          else instance = instance2;
+          const { token } = data;
 
-        return axios({
-          url: `${instance}/submissions/${token}`,
-          method: "GET",
-        })
-          .then((response) => {
-            return res
-              .status(200)
-              .json({ response: JSON.stringify(response.data) });
+          return axios({
+            url: `${instance}/submissions/${token}`,
+            method: "GET",
           })
-          .catch((err) => {
-            console.log(err);
-          });
+            .then((response) => {
+              return res
+                .status(200)
+                .json({ response: JSON.stringify(response.data) });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } catch (error) {
+          console.log(error);
+        }
         break;
     }
   } else {
