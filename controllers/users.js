@@ -1,4 +1,3 @@
-// const User = require("../models/User");
 const axios = require("axios").default;
 
 exports.code_execution = (req, res) => {
@@ -10,9 +9,7 @@ exports.code_execution = (req, res) => {
   if (secret_key == 1234) {
     let instance = "";
     switch (type) {
-      // type:0:submissions
-      // type:1:fetchResult
-      case 0:
+      case "submissions":
         const { source_code, language_id } = data;
         try {
           if (intanceChoice === 1) instance = instance1;
@@ -27,9 +24,7 @@ exports.code_execution = (req, res) => {
             data: JSON.stringify({ source_code, language_id }),
           })
             .then((response) => {
-              return res
-                .status(200)
-                .json({ response: JSON.stringify(response.data) });
+              return res.status(200).json({ token: response.data.token });
             })
             .catch((err) => {
               console.log(err);
@@ -38,7 +33,7 @@ exports.code_execution = (req, res) => {
           console.log(error);
         }
         break;
-      case 1:
+      case "fetchResult":
         try {
           if (intanceChoice === 1) instance = instance1;
           else instance = instance2;
@@ -49,9 +44,7 @@ exports.code_execution = (req, res) => {
             method: "GET",
           })
             .then((response) => {
-              return res
-                .status(200)
-                .json({ response: JSON.stringify(response.data) });
+              return res.status(200).json(response.data);
             })
             .catch((err) => {
               console.log(err);
