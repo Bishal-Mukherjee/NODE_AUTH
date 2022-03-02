@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const { limit } = require("./helpers/RateLimit");
 require("dotenv").config();
 
 app.use(express.json({ extended: false }));
@@ -17,7 +18,7 @@ mongoose
     console.log("DATABASE CONNECTED");
   });
 
-app.use("/api/users", require("./routes/users"));
+app.use("/api/users", limit, require("./routes/users"));
 
 app.listen(8080, () => {
   console.log("SERVER WORKING ON 8080");

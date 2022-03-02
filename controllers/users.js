@@ -1,15 +1,13 @@
 const User = require("../models/User");
 const axios = require("axios").default;
 
-exports.getUser = (req, res) => {
-  const { email } = req.params;
+exports.code_execution = (req, res) => {
+  const { secret_key } = req.params;
   const { type, data, intanceChoice } = req.body;
   const instance1 = "http://ec2-3-86-116-46.compute-1.amazonaws.com";
   const instance2 = "http://ec2-34-201-173-67.compute-1.amazonaws.com";
 
-  User.findOne({ email }).exec((err, user) => {
-    if (err) console.log(err);
-
+  if (secret_key == 1234) {
     let instance = "";
     switch (type) {
       // type:0:submissions
@@ -55,5 +53,7 @@ exports.getUser = (req, res) => {
           });
         break;
     }
-  });
+  } else {
+    res.status(401).json({ message: "ACCESS DENIED" });
+  }
 };
